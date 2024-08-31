@@ -7,7 +7,7 @@
 
 template <typename T>
 class MPointer;
-
+class QuickSortGtest_Friend;
 class MPointerGC {
 public:
     static MPointerGC& Instance() {
@@ -21,6 +21,12 @@ public:
         size_t id = next_id++; // Genera un ID autogenerado único
         pointers.emplace_back(id, myPtr.ptr);
         return id;
+    }
+
+    public:
+    size_t GetPointerCount(){
+        std::lock_guard<std::mutex> lock(mtx);
+        return pointers.size();
     }
 
     template <typename T>

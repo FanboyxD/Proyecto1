@@ -1,89 +1,45 @@
-#include "MPointer.h"
-#include <iostream>
+// InsertionSort.cpp
+#include "DoublyLinkedList.h"
 
 template <typename T>
-class Node {
-public:
-    MPointer<T> data;
-    MPointer<Node<T>> next;
-    MPointer<Node<T>> prev;
+void insertionSort(DoublyLinkedList<T>& list) {
+    if (!list.head) return;
 
-    Node() : data(MPointer<T>::New()), next(nullptr), prev(nullptr) {}
-    Node(T value) : data(MPointer<T>::New()), next(nullptr), prev(nullptr) {
-        *data = value;
-    }
-};
+    MPointer<Node<T>> sorted = nullptr;
+    MPointer<Node<T>> current = list.head;
 
-template <typename T>
-class DoublyLinkedList {
-public:
-    MPointer<Node<T>> head;
-    MPointer<Node<T>> tail;
+    while (current != nullptr) {
+        MPointer<Node<T>> next = current->next;
 
-    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
-
-    void append(T value) {
-        MPointer<Node<T>> newNode = MPointer<Node<T>>::New();
-        newNode->data = MPointer<T>::New();
-        *(newNode->data) = value;
-        if (!head) {
-            head = newNode;
-            tail = newNode;
+        if (!sorted || *(sorted->data) >= *(current->data)) {
+            current->next = sorted;
+            if (sorted) sorted->prev = current;
+            sorted = current;
+            sorted->prev = nullptr;
         } else {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
-        }
-    }
-
-    void insertionSort() {
-        if (!head) return;
-
-        MPointer<Node<T>> sorted = nullptr;
-        MPointer<Node<T>> current = head;
-
-        while (current != nullptr) {
-            MPointer<Node<T>> next = current->next;
-
-            if (!sorted || *(sorted->data) >= *(current->data)) {
-                current->next = sorted;
-                if (sorted) sorted->prev = current;
-                sorted = current;
-                sorted->prev = nullptr;
-            } else {
-                MPointer<Node<T>> temp = sorted;
-                while (temp->next != nullptr && *(temp->next->data) < *(current->data)) {
-                    temp = temp->next;
-                }
-
-                current->next = temp->next;
-                if (temp->next != nullptr) {
-                    temp->next->prev = current;
-                }
-                temp->next = current;
-                current->prev = temp;
+            MPointer<Node<T>> temp = sorted;
+            while (temp->next != nullptr && *(temp->next->data) < *(current->data)) {
+                temp = temp->next;
             }
-            current = next;
-        }
 
-        head = sorted;
-
-        // Update tail
-        tail = head;
-        while (tail->next != nullptr) {
-            tail = tail->next;
+            current->next = temp->next;
+            if (temp->next != nullptr) {
+                temp->next->prev = current;
+            }
+            temp->next = current;
+            current->prev = temp;
         }
+        current = next;
     }
 
-    void printList() const {
-        MPointer<Node<T>> temp = head;
-        while (temp != nullptr) {
-            std::cout << *(temp->data) << " ";
-            temp = temp->next;
-        }
-        std::cout << std::endl;
+    list.head = sorted;
+
+    // Update tail
+    list.tail = list.head;
+    while (list.tail->next != nullptr) {
+        list.tail = list.tail->next;
     }
-};
+}
 
 int main() {
     DoublyLinkedList<int> list;
@@ -95,9 +51,9 @@ int main() {
     std::cout << "Lista original: ";
     list.printList();
 
-    list.insertionSort();
+    insertionSort(list);
 
-    std::cout << "Lista ordenada: ";
+    std::cout << "Lista ordenada con Insertion Sort: ";
     list.printList();
 
     return 0;
