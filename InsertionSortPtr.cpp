@@ -41,7 +41,7 @@ void insertionSort(DoublyLinkedList<T>& list) {
     }
 }
 
-int main() {
+/*int main() {
     DoublyLinkedList<int> list;
     list.append(4);
     list.append(2);
@@ -58,3 +58,4 @@ int main() {
 
     return 0;
 }
+*/

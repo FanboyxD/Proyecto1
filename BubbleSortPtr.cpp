@@ -24,7 +24,7 @@ void bubbleSort(DoublyLinkedList<T>& list) {
     } while (swapped);
 }
 
-int main() {
+/*int main() {
     DoublyLinkedList<int> list;
     list.append(4);
     list.append(2);
@@ -41,3 +41,4 @@ int main() {
 
     return 0;
 }
+*/

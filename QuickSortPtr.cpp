@@ -33,7 +33,7 @@ void quicksort(MPointer<Node<T>> low, MPointer<Node<T>> high) {
     }
 }
 
-int main() {
+/* int main() {
     DoublyLinkedList<int> list;
     list.append(4);
     list.append(2);
@@ -49,4 +49,4 @@ int main() {
     list.printList();
 
     return 0;
-}
+} */
